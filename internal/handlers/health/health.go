@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/larry-a4/dynamodb/internal/handlers"
-	"github.com/larry-a4/dynamodb/internal/repository/adapter"
-	HttpStatus "github.com/larry-a4/dynamodb/utils/http"
+	"github.com/larry-a4/nftbento/internal/handlers"
+	"github.com/larry-a4/nftbento/internal/repository/adapter"
+	HttpStatus "github.com/larry-a4/nftbento/utils/http"
 )
 
 type Handler struct {

@@ -3,7 +3,7 @@ package config
 import (
 	"strconv"
 
-	"github.com/larry-a4/dynamodb/utils/env"
+	"github.com/larry-a4/nftbento/utils/env"
 )
 
 type Config struct {

@@ -6,13 +6,13 @@ import (
 	"net/http"
 
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/larry-a4/dynamodb/config"
-	"github.com/larry-a4/dynamodb/internal/repository/adapter"
-	"github.com/larry-a4/dynamodb/internal/repository/instance"
-	"github.com/larry-a4/dynamodb/internal/routes"
-	"github.com/larry-a4/dynamodb/internal/rules"
-	RulesProduct "github.com/larry-a4/dynamodb/internal/rules/product"
-	"github.com/larry-a4/dynamodb/utils/logger"
+	"github.com/larry-a4/nftbento/config"
+	"github.com/larry-a4/nftbento/internal/repository/adapter"
+	"github.com/larry-a4/nftbento/internal/repository/instance"
+	"github.com/larry-a4/nftbento/internal/routes"
+	"github.com/larry-a4/nftbento/internal/rules"
+	RulesProduct "github.com/larry-a4/nftbento/internal/rules/product"
+	"github.com/larry-a4/nftbento/utils/logger"
 )
 
 func main() {

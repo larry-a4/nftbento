@@ -1,4 +1,4 @@
-module github.com/larry-a4/dynamodb
+module github.com/larry-a4/nftbento
 
 go 1.16
 

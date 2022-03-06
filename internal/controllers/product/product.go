@@ -5,8 +5,8 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
 	"github.com/google/uuid"
-	"github.com/larry-a4/dynamodb/internal/entities/product"
-	"github.com/larry-a4/dynamodb/internal/repository/adapter"
+	"github.com/larry-a4/nftbento/internal/entities/product"
+	"github.com/larry-a4/nftbento/internal/repository/adapter"
 )
 
 type Controller struct {
@@ -17,7 +17,7 @@ type Interface interface {
 	ListOne(id uuid.UUID) (entity product.Product, err error)
 	ListAll() (entities []product.Product, err error)
 	Create(entity *product.Product) (uuid.UUID, error)
-	Update(id uuid.UUID, entity *product.Product) error
+	// Update(id uuid.UUID, entity *product.Product) error
 	Remove(id uuid.UUID) error
 }
 
@@ -67,22 +67,22 @@ func (c *Controller) Create(entity *product.Product) (uuid.UUID, error) {
 	return entity.ID, err
 }
 
-func (c *Controller) Update(id uuid.UUID, entity *product.Product) error {
-	found, err := c.ListOne(id)
-	if err != nil {
-		return err
-	}
+// func (c *Controller) Update(id uuid.UUID, entity *product.Product) error {
+// 	found, err := c.ListOne(id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	found.ID = id
-	found.Name = entity.Name
-	found.UpdatedAt = time.Now()
-	_, err = c.repository.CreateOrUpdate(found.GetMap(), entity.TableName())
-	if err != nil {
-		return err
-	}
+// 	found.ID = id
+// 	found.Name = entity.Name
+// 	found.UpdatedAt = time.Now()
+// 	_, err = c.repository.CreateOrUpdate(found.GetMap(), entity.TableName())
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 func (c *Controller) Remove(id uuid.UUID) error {
 	entity, err := c.ListOne(id)

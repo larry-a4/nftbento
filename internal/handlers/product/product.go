@@ -7,13 +7,13 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/google/uuid"
-	ControllerProduct "github.com/larry-a4/dynamodb/internal/controllers/product"
-	EntityProduct "github.com/larry-a4/dynamodb/internal/entities/product"
-	"github.com/larry-a4/dynamodb/internal/handlers"
-	"github.com/larry-a4/dynamodb/internal/repository/adapter"
-	Rules "github.com/larry-a4/dynamodb/internal/rules"
-	RulesProduct "github.com/larry-a4/dynamodb/internal/rules/product"
-	HttpStatus "github.com/larry-a4/dynamodb/utils/http"
+	ControllerProduct "github.com/larry-a4/nftbento/internal/controllers/product"
+	EntityProduct "github.com/larry-a4/nftbento/internal/entities/product"
+	"github.com/larry-a4/nftbento/internal/handlers"
+	"github.com/larry-a4/nftbento/internal/repository/adapter"
+	Rules "github.com/larry-a4/nftbento/internal/rules"
+	RulesProduct "github.com/larry-a4/nftbento/internal/rules/product"
+	HttpStatus "github.com/larry-a4/nftbento/utils/http"
 )
 
 type Handler struct {
@@ -76,25 +76,25 @@ func (h *Handler) Post(w http.ResponseWriter, r *http.Request) {
 	HttpStatus.StatusOK(w, r, map[string]interface{}{"id": ID.String()})
 }
 
-func (h *Handler) Put(w http.ResponseWriter, r *http.Request) {
-	ID, err := uuid.Parse(chi.URLParam(r, "ID"))
-	if err != nil {
-		HttpStatus.StatusBadRequest(w, r, errors.New("ID is not valid uuid"))
-		return
-	}
+// func (h *Handler) Put(w http.ResponseWriter, r *http.Request) {
+// 	ID, err := uuid.Parse(chi.URLParam(r, "ID"))
+// 	if err != nil {
+// 		HttpStatus.StatusBadRequest(w, r, errors.New("ID is not valid uuid"))
+// 		return
+// 	}
 
-	productBody, err := h.getBodyAndValidate(r, ID)
-	if err != nil {
-		HttpStatus.StatusBadRequest(w, r, err)
-		return
-	}
+// 	productBody, err := h.getBodyAndValidate(r, ID)
+// 	if err != nil {
+// 		HttpStatus.StatusBadRequest(w, r, err)
+// 		return
+// 	}
 
-	if err := h.Controller.Update(ID, productBody); err != nil {
-		HttpStatus.StatusInternalServerError(w, r, err)
-		return
-	}
-	HttpStatus.StatusNoContent(w, r)
-}
+// 	if err := h.Controller.Update(ID, productBody); err != nil {
+// 		HttpStatus.StatusInternalServerError(w, r, err)
+// 		return
+// 	}
+// 	HttpStatus.StatusNoContent(w, r)
+// }
 
 func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	ID, err := uuid.Parse(chi.URLParam(r, "ID"))
@@ -120,7 +120,7 @@ func (h *Handler) getBodyAndValidate(r *http.Request, ID uuid.UUID) (
 	productBody := &EntityProduct.Product{}
 	body, err := h.Rules.ConvertIoReaderToStruct(r.Body, productBody)
 	if err != nil {
-		return &EntityProduct.Product{}, errors.New("body is required")
+		return &EntityProduct.Product{}, err
 	}
 
 	productParsed, err := EntityProduct.InterfaceToModel(body)

@@ -11,9 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
-	"github.com/google/uuid"
-	"github.com/larry-a4/dynamodb/internal/entities"
-	EntityProduct "github.com/larry-a4/dynamodb/internal/entities/product"
+	EntityProduct "github.com/larry-a4/nftbento/internal/entities/product"
 )
 
 type Rules struct{}
@@ -31,16 +29,16 @@ func (r *Rules) ConvertIoReaderToStruct(data io.Reader, model interface{}) (
 	return model, json.NewDecoder(data).Decode(model)
 }
 
-func (r *Rules) GetMock() interface{} {
-	return EntityProduct.Product{
-		Base: entities.Base{
-			ID:        uuid.New(),
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-		},
-		Name: uuid.New().String(),
-	}
-}
+// func (r *Rules) GetMock() interface{} {
+// 	return EntityProduct.Product{
+// 		Base: entities.Base{
+// 			ID:        uuid.New(),
+// 			CreatedAt: time.Now(),
+// 			UpdatedAt: time.Now(),
+// 		},
+// 		Name: uuid.New().String(),
+// 	}
+// }
 
 func (r *Rules) Migrate(connection *dynamodb.DynamoDB) error {
 	return r.createTable(connection)
@@ -53,7 +51,10 @@ func (r *Rules) Validate(model interface{}) error {
 	}
 	return validation.ValidateStruct(productModel,
 		validation.Field(&productModel.ID, validation.Required, is.UUIDv4),
-		validation.Field(&productModel.Name, validation.Required, validation.Length(3, 50)),
+		validation.Field(&productModel.TotalPrice, validation.Required),
+		validation.Field(&productModel.TxTimestamp, validation.Required),
+		validation.Field(&productModel.CollectionName, validation.Required),
+		validation.Field(&productModel.CollectionSlug, validation.Required),
 	)
 }
 
